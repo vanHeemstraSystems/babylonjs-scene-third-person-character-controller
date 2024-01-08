@@ -29,7 +29,7 @@ import hvGirl from "../../assets/glb/HVGirl.glb";
 import roomEnvironment from "../../assets/environment/room.env"
 import { MeshBuilder, StandardMaterial } from "@babylonjs/core";
 
-export class ThirdPersonCharacterController implements CreateSceneClass {
+export class _Scene implements CreateSceneClass {
   createScene = async (
     engine: Engine,
     canvas: HTMLCanvasElement
@@ -357,4 +357,4 @@ export class ThirdPersonCharacterController implements CreateSceneClass {
 // "DefaultCollisionCoordinator needs to be imported before as it contains a side-effect required by your code."
 // To Do: find out what causes the error.
 
-export default new ThirdPersonCharacterController();
+export default new _Scene();
