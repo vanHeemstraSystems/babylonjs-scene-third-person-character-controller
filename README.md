@@ -9,4 +9,4 @@ The idea is to seperate the *scenes* from the *framework* that uses these scenes
 
 Take into account "Optimizing a Large-Scale Babylon.js Scene" at https://joepavitt.medium.com/optimizing-a-large-scale-babylon-js-scene-9466bb715e15 and "Optimizing Your Scene" at https://doc.babylonjs.com/features/featuresDeepDive/scene/optimize_your_scene
 
-See an example of a very large scene at https://www.ibm.com/resources/cloud/mayflower-ship-experience/#/experience/harbor
+See an example of a very large scene at https://www.ibm.com/resources/cloud/mayflower-ship-experience/#/experience/harbor and how it was built at https://joepavitt.medium.com/building-the-web-based-3d-digital-experience-for-the-mayflower-autonomous-ship-a56f08e6558
