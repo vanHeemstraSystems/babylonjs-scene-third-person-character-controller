@@ -8,7 +8,6 @@ import { CubeTexture } from "@babylonjs/core/Materials/Textures/cubeTexture";
 import { EnvironmentHelper } from "@babylonjs/core/Helpers/environmentHelper";
 // import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder";
 import { BackgroundMaterial } from "@babylonjs/core/Materials/Background";
-import { Mesh } from "@babylonjs/core/Meshes/abstractMesh"; // WHERE is Mesh based?
 import { Texture } from "@babylonjs/core/Materials/Textures";
 import { ExecuteCodeAction } from "@babylonjs/core/Actions/directActions";
 import { ActionManager } from "@babylonjs/core/Actions/actionManager";
@@ -27,7 +26,7 @@ import "@babylonjs/core/Animations/animatable"
 // digital assets
 import hvGirl from "../../assets/glb/HVGirl.glb";
 import roomEnvironment from "../../assets/environment/room.env"
-import { MeshBuilder, StandardMaterial } from "@babylonjs/core";
+import { Mesh, MeshBuilder, StandardMaterial } from "@babylonjs/core";
 
 export class ThirdPersonCharacterController implements CreateSceneClass {
   createScene = async (
@@ -70,23 +69,31 @@ export class ThirdPersonCharacterController implements CreateSceneClass {
     // This attaches the camera to the canvas
     camera.attachControl(canvas, true);
 
+    // Restrict the camera so that it cannot move below ground level.
+    camera.upperBetaLimit = Math.PI / 2.2;
+
     // camera.useFramingBehavior = true; // What does this do?
 
     // load the environment file
-    scene.environmentTexture = new CubeTexture(roomEnvironment, scene);
+    // scene.environmentTexture = new CubeTexture(roomEnvironment, scene); // Skip environment for now
 
     // if not setting the envtext of the scene, we have to load the DDS module as well
+    // new EnvironmentHelper({
+    //  skyboxTexture: roomEnvironment,
+    //  createGround: false
+    //}, scene)
+
     new EnvironmentHelper({
-      skyboxTexture: roomEnvironment,
+      createSkybox: false, // Skip Skybox here, we'll create one further on
       createGround: false
     }, scene)
 
-    // Render
+    // Register a render loop to repeatedly render the scene
     engine.runRenderLoop(() => {
       scene.render();
     });
 
-    // Resize
+    // Watch for browser/canvas resize events
     window.addEventListener('resize', () => {
       engine.resize();
     });
@@ -110,8 +117,9 @@ export class ThirdPersonCharacterController implements CreateSceneClass {
     // Remove all light reflections on our box (the sun doesn't reflect on the sky!)
     skyboxMaterial.disableLighting = true;
 
-    // Apply our sky texture
-    skyboxMaterial.reflectionTexture = new CubeTexture('textures/skybox', scene);
+    // Apply our sky texture, found in the folder 'public' of used locally
+    skyboxMaterial.reflectionTexture = new CubeTexture('textures/skybox', scene); // USE LOCAL ASSETS
+//    skyboxMaterial.reflectionTexture = new CubeTexture('https://assets.babylonjs.com/textures/skybox', scene); // USE REMOTE ASSETS
     skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
 
     // We want our skybox to render behind everything else, therefor we set the skybox's renderingGroupId to 0, 
@@ -124,7 +132,7 @@ export class ThirdPersonCharacterController implements CreateSceneClass {
       It ensures a smooth transition from the "ground" to the environment.
     */
     const size = 1000;
-    const skydome = MeshBuilder.CreateBox("sky", { size, sideOrientation: Mesh.Builder.BACKSIDE }, scene);
+    const skydome = MeshBuilder.CreateBox("sky", { size, sideOrientation: Mesh.BACKSIDE }, scene);
     skydome.position.y = size / 2;
     skydome.receiveShadows = true;
 
@@ -132,9 +140,9 @@ export class ThirdPersonCharacterController implements CreateSceneClass {
 
     // Next, lets create a BackgroundMaterial to support ground projection.
     const sky = new BackgroundMaterial("skyMaterial", scene);
-    sky.enableGroundProjection = true;
-    sky.projectedGroundRadius = 20;
-    sky.projectedGroundHeight = 3;
+//    sky.enableGroundProjection = true; // method is missing
+//    sky.projectedGroundRadius = 20; // method is missing
+//    sky.projectedGroundHeight = 3; // method is missing
     skydome.material = sky;
 
     /*
@@ -143,7 +151,7 @@ export class ThirdPersonCharacterController implements CreateSceneClass {
     */
 
     // Next, we apply our special sky texture to it. This texture must have been prepared to be a skybox, in a dedicated directory, named “skybox” in our example:
-    sky.reflectionTexture = new CubeTexture("textures/skybox", scene);
+//    sky.reflectionTexture = new CubeTexture("textures/skybox", scene);
 
     // Our built-in 'ground' shape.
     // NOTE: We do not create a ground but use the Skybox instead
@@ -355,6 +363,9 @@ export class ThirdPersonCharacterController implements CreateSceneClass {
 
 // Throws error on keypress:
 // "DefaultCollisionCoordinator needs to be imported before as it contains a side-effect required by your code."
+// To Do: find out what causes the error.
+
+export default new ThirdPersonCharacterController();
 // To Do: find out what causes the error.
 
 export default new ThirdPersonCharacterController();
