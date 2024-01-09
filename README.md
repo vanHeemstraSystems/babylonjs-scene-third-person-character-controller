@@ -27,4 +27,23 @@ Example code:
 ...
 ```
 
+In case you get this error: 
+
+```
+ERROR in external "https://github.com/vanHeemstraSystems/babylonjs-scene-third-person-character-controller/raw/main/scene.ts"
+The target environment doesn't support dynamic import() syntax so it's not possible to use external type 'module' within a script
+```
+
+To dynamically import ES modules you'll need to change webpack's output type to ESM:
+
+```
+
+```
+
+Alternatively you could try ignoring the external import with ```webpackIgnore```:
+
+```
+/* webpackIgnore: true */
+```
+
 ## 400 - Conclusion
