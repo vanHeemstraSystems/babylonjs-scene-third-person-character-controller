@@ -27,7 +27,7 @@ Example code:
 ...
 ```
 
-In case you get this error: 
+In case you get this error (see https://stackoverflow.com/questions/74143299/the-target-environment-doesnt-support-dynamic-import-syntax-so-its-not-possi): 
 
 ```
 ERROR in external "https://github.com/vanHeemstraSystems/babylonjs-scene-third-person-character-controller/raw/main/scene.ts"
@@ -37,13 +37,13 @@ The target environment doesn't support dynamic import() syntax so it's not possi
 To dynamically import ES modules you'll need to change webpack's output type to ESM:
 
 ```
-
+... TO DO: find solution
 ```
 
 Alternatively you could try ignoring the external import with ```webpackIgnore```:
 
 ```
-/* webpackIgnore: true */
+... TO DO: find solution /* webpackIgnore: true */
 ```
 
 ## 400 - Conclusion
