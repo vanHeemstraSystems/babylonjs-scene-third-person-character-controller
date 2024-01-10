@@ -196,7 +196,7 @@ export class ThirdPersonCharacterController implements CreateSceneClass {
     player.scaling.setAll(0.1);
 
     // Lock the camera on the player
-    // camera.setTarget(player); // Do not set it to player, but leave its target as the scene origin so all skybox walls will be enclosing the canvas.
+    camera.setTarget(player);
 
     // Player character animations
     const walkAnim = scene.getAnimationGroupByName("Walking");
