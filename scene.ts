@@ -25,6 +25,7 @@ import "@babylonjs/core/Animations/animatable"
 
 // digital assets
 import hvGirl from "../../assets/glb/HVGirl.glb";
+// import hvGirl from "https://github.com/vanHeemstraSystems/babylonjs-mesh-hvgirl/raw/main/HVGirl.glb"; // Test, can we import from our Github repository?
 import roomEnvironment from "../../assets/environment/room.env"
 import { Mesh, MeshBuilder, StandardMaterial } from "@babylonjs/core";
 
